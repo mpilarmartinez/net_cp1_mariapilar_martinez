@@ -10,8 +10,8 @@ namespace CP1.Models
     public class Manufacturer
     {
         // atributos
-        public int id;
-        public string name;
+        public int id { get; set; }
+        public string name { get; set; }
 
         // constructores
         public Manufacturer() { }

@@ -6,19 +6,22 @@ using System.Threading.Tasks;
 
 namespace CP1.Models
 {
- // atributos
+    // atributos
     public class Product
     {
         public int id;
-        public string name;
-        public float weight;
-        public float price;
-        public int quantity;
-        public float cost;
-        public DateTime date;
+        public string name { get; set; }
+        public float weight { get; set; }
+        public float price { get; set; } // precio de venta
         
+        public int quantity { get; set; } // unidades de producto
+        
+        public float cost { get; set; } // coste inicial
+        
+        public DateTime date { get; set; }
+
         // asociaciones unidireccional
-        public Manufacturer manufacturer; 
+        public Manufacturer manufacturer { get; set; }
 
         // constructores
         public Product() { }

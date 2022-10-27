@@ -9,6 +9,8 @@ namespace CP1.Repositories
     public class ProductListRepository
     {
         // implementa métodos para  objectos Product
+        //La clase tendrá un atributo lista de productos sobre la 
+        //que realizará las operaciones implementadas.
 
     }
 }

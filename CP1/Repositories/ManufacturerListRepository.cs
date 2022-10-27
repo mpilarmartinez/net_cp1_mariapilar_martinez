@@ -9,6 +9,8 @@ namespace CP1.Repositories
     public class ManufacturerListRepository
     {
         // implementación de métodos para objetos Manufacturer
-    }
+        // La clase tendrá un atributo lista de (productos) sobre la 
+        // que realizará las operaciones implementadas.??
+}
 
 }
