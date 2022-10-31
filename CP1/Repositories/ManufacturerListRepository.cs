@@ -40,6 +40,96 @@ namespace CP1.Repositories
         {
             return manufacturers;
         }
+
+        public int FindMaxId()
+        {
+            int idmax = 0;
+
+            foreach (Manufacturer manufacturer in manufacturers)
+            {
+                if (manufacturer.id > idmax)
+                {
+                    idmax = manufacturer.id;
+                }
+            }
+            return idmax++;
+        }
+
+        public bool Save(Manufacturer manufacturer)
+        {
+            int numElementosInicial = manufacturers.Count;
+            int numElementosFinal;
+
+            manufacturer.id = FindMaxId();
+
+            manufacturers.Add(manufacturer);
+
+            numElementosFinal = manufacturers.Count;
+
+            if (numElementosInicial < numElementosFinal)
+            {
+                return true;
+            }
+
+            return false;
+        }
+
+        public bool ExistsById(int id)
+        {
+
+            foreach (Manufacturer manufacturer in manufacturers)
+            {
+                if (manufacturer.id == id)
+                    return true;
+            }
+
+            return false;
+        }
+
+        public bool Update(Manufacturer manufacturer)
+        {
+            // comprobar si existe 
+            if (!ExistsById(manufacturer.id))
+                return false; // si no existe no lo podemos modificar
+
+            for (int i = 0; i < manufacturers.Count; i++)
+            {
+
+                if (manufacturers[i].id == manufacturer.id)
+                {
+                    // actualizar atributos del fabricante de la lista con los
+                    // del fabricante que llega como parámetro
+
+                    manufacturers[i].id = manufacturer.id;
+                    manufacturers[i].name = manufacturer.name;
+                    
+                    return true; // una vez modificado salimos del método
+                }
+            }
+            return false;
+
+        }
+
+        public bool DeleteById(int id)
+        {
+
+            // comprobar si existe 
+            if (!ExistsById(id))
+                return false; // si no existe no lo podemos borrar
+
+            for (int i = 0; i < manufacturers.Count; i++)
+            {
+
+                if (manufacturers[i].id == id)
+                {
+                    manufacturers.RemoveAt(i);
+                    return true;
+                }
+            }
+            return false;
+        }
+
+
     }
 
 }

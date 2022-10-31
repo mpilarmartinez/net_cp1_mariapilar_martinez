@@ -16,10 +16,22 @@ namespace CP1.Repositories
         //Encontrar todos los fabricantes (FindAll)
         List<Manufacturer> FindAll();
 
-        /*Guardar nuevo fabricante, replicar lo mismo para generar el id de fabricante que se hizo en productos.
-        Actualizar fabricante
-        Borrar fabricante por id
-        */
+        //Guardar nuevo fabricante en la lista
+        //OP2: crear método FindMaxId que encuentre el id máximo de los fabricantes,
+        //usamos ese id + 1 como nuevo id para el nuevo fabricante.
+        int FindMaxId();
+
+        bool Save(Product manufacturer);
+
+        // comprobar si existe por id
+        bool ExistsById(int id);
+
+        //Actualizar fabricante
+        bool Update(Manufacturer manufacturer);
+
+        //Borrar fabricante por id
+        bool DeleteById(int id);
+
 
     }
 }

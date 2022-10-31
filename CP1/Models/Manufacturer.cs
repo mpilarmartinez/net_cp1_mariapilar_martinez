@@ -11,7 +11,7 @@ namespace CP1.Models
     public class Manufacturer
     {
         // atributos
-        public int id;
+        public int id { get; set; }
         public string name { get; set; }
 
         // constructores

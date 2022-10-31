@@ -93,7 +93,7 @@ namespace CP1.Repositories
             return productsByManufacturer;
         }
 
-        public int FindMaxId(List<Product> products)
+        public int FindMaxId()
         {
             int idmax = 0;
 
@@ -104,17 +104,160 @@ namespace CP1.Repositories
                     idmax = product.id;
                 }
             }
-            return idmax + 1;
+            return idmax++;
         }
 
-        /*public bool Save(Product product)
-        {      
-        Console.WriteLine(product);
-        product.id = FindMaxId();
-         
-        lo añado a la lista y devuelvo true
-        products.Add(product);
-                return true;     
-        }*/
+        public bool Save(Product product)
+        {
+            int numElementosInicial = products.Count;
+            int numElementosFinal;
+
+            product.id = FindMaxId();
+
+            products.Add(product);
+
+            numElementosFinal = products.Count;
+
+            if (numElementosInicial < numElementosFinal)
+            {
+                return true;
+            }
+
+            return false;
+        }
+
+        public bool ExistsById(int id)
+        {
+
+            foreach (Product product in products) {
+                if (product.id == id)
+                    return true;
+            }
+
+            return false;
+        }
+
+        public bool Update(Product product)
+        {
+            // comprobar si existe 
+            if (!ExistsById(product.id))
+                return false; // si no existe no lo podemos modificar
+
+            for (int i = 0; i < products.Count; i++)
+            {
+
+                if (products[i].id == product.id)
+                {
+                    // actualizar atributos del product de la lista con los
+                    // del product que llega como parámetro
+                    products[i].name = product.name;
+                    products[i].weight = product.weight;
+                    products[i].price = product.price;
+                    products[i].quantity = product.quantity;
+                    products[i].cost = product.cost;
+                    products[i].date = product.date;
+
+                    return true; // una vez modificado salimos del método
+                }
+            }
+            return false;
+
+        }
+
+        public bool DeleteById(int id)
+        {
+
+            // comprobar si existe 
+            if (!ExistsById(id))
+                return false; // si no existe no lo podemos borrar
+
+            for (int i = 0; i < products.Count; i++)
+            {
+
+                if (products[i].id == id)
+                {
+                    products.RemoveAt(i);
+                    return true;
+                }
+            }
+            return false;
+        }
+
+        public bool DeleteAll()
+        {
+
+            if (!products.Any())
+                return false;
+
+            products.Clear();
+            return true;
+        }
+
+        public double SumAllPrices() {
+
+            double suma_precios = 0;
+
+            foreach (Product product in products) { 
+            
+            suma_precios = suma_precios + product.price;
+            
+            }
+            return suma_precios;
+        
+        }
+
+        public double CalculateGrossProfit()
+        {
+            double total = 0;
+
+            foreach (Product product in products)
+            {
+
+                total = total + product.price * product.quatity;
+            }
+
+            return total;
+        }
+
+        public double CalculateNetProfit() {
+
+            double total1 = 0;
+
+            foreach (Product product in products)
+            {
+
+                total1 = total1 + product.cost * product.quatity;
+            }
+
+            return CalculateGrossProfit() - total1;
+        }
+
+        // Obtener los productos pero con el IVA añadido al precio.
+        // El IVA será un número entero que reciba por parámetro
+        // (por defecto valdrá 21) y será entre 1 y 100 (validar que no exceda estos rangos,
+        // si excede los rangos dejamos el valor por defecto o lanzamos una excepción),
+        // que tendremos que convertir a porcentaje (dividir entre 100) antes de usarlo.
+        // Cuidado: el precio se modifica para los productos que devolvemos, pero no en la lista original.
+
+        public List<Product> GetAllIVAPriceProducts(int num) {
+            
+            List<Product> productsIVAPrice = new List<Product>();
+            
+            if (num < 1 || num > 100) num = 21;
+            
+            double porcentaje = num / 100;
+            
+            foreach (Product product in products) {
+            
+            double aux = product.price + porcentaje * product.price;
+           
+            // ¿cómo añado el precio con iva al producto que tenemos que devolver,
+            // sin modificar la lista original? 
+            
+            //productsIVAPrice.Add(product);
+            
+            }
+            return productsIVAPrice;
+        }
     }
 }

@@ -10,9 +10,11 @@ namespace CP1.Models
 {
     public class Product
     {
+        internal double quatity;
+
         // atributos
 
-        public int id;
+        public int id { get; set; }
         public string name { get; set; }
         public double weight { get; set; }
         public double price { get; set; } // precio de venta

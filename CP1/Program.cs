@@ -1,5 +1,4 @@
 ﻿
-
 using CP1.Repositories;
 using System;
 using Msg = System.Console;
@@ -14,6 +13,7 @@ using Msg = System.Console;
 
 
 IProductRepository productRepo = new ProductListRepository();
+
 public class Programa
 {
     private static int id;
