@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 
 namespace CP1.Repositories
 {
-    public class ManufacturerListRepository
+    public class ManufacturerListRepository 
     {
         //atributo lista de productos 
         private List<Manufacturer> manufacturers;

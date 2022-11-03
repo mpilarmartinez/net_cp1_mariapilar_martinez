@@ -30,6 +30,7 @@ namespace CP1.Repositories
         // Encuentra por id
         public Product FindById(int id)
         {
+            
             foreach (Product product in products)
             {
                 if (product.id == id)
@@ -129,7 +130,8 @@ namespace CP1.Repositories
         public bool ExistsById(int id)
         {
 
-            foreach (Product product in products) {
+            foreach (Product product in products)
+            {
                 if (product.id == id)
                     return true;
             }
@@ -193,17 +195,19 @@ namespace CP1.Repositories
             return true;
         }
 
-        public double SumAllPrices() {
+        public double SumAllPrices()
+        {
 
             double suma_precios = 0;
 
-            foreach (Product product in products) { 
-            
-            suma_precios = suma_precios + product.price;
-            
+            foreach (Product product in products)
+            {
+
+                suma_precios = suma_precios + product.price;
+
             }
             return suma_precios;
-        
+
         }
 
         public double CalculateGrossProfit()
@@ -219,7 +223,8 @@ namespace CP1.Repositories
             return total;
         }
 
-        public double CalculateNetProfit() {
+        public double CalculateNetProfit()
+        {
 
             double total1 = 0;
 
@@ -239,25 +244,33 @@ namespace CP1.Repositories
         // que tendremos que convertir a porcentaje (dividir entre 100) antes de usarlo.
         // Cuidado: el precio se modifica para los productos que devolvemos, pero no en la lista original.
 
-        public List<Product> GetAllIVAPriceProducts(int num) {
-            
+        public List<Product> FindAllIVAPriceProducts(int num)
+        {
+
             List<Product> productsIVAPrice = new List<Product>();
-            
+
             if (num < 1 || num > 100) num = 21;
-            
+
             double porcentaje = num / 100;
-            
-            foreach (Product product in products) {
-            
-            double aux = product.price + porcentaje * product.price;
-           
-            // ¿cómo añado el precio con iva al producto que tenemos que devolver,
-            // sin modificar la lista original? 
-            
-            //productsIVAPrice.Add(product);
-            
+
+            foreach (Product product in products)
+            {
+
+                product.price = (product.price) * (1 + porcentaje);
+
+                // se modifica la lista original? si es así se poría intentar clonar 
+
+                productsIVAPrice.Add(product);
+
             }
             return productsIVAPrice;
         }
+
+        public void PrintAll()
+        {
+            foreach (Product product in products)
+                Console.WriteLine(product);
+        }
+
     }
 }

@@ -17,6 +17,9 @@ namespace CP1.Repositories
         //Encontrar todos los productos (FindAll)
         List<Product> FindAll();
 
+        //Imprime todos los productos
+        void PrintAll();
+
         //Encontrar productos por rango de precios
         List<Product> FindAllByPrice(double min, double max);
 
@@ -62,7 +65,9 @@ namespace CP1.Repositories
         // si excede los rangos dejamos el valor por defecto o lanzamos una excepción),
         // que tendremos que convertir a porcentaje (dividir entre 100) antes de usarlo.
         // Cuidado: el precio se modifica para los productos que devolvemos, pero no en la lista original.
-        List<Product> GetAllIVAPriceProducts(int num);
+        List<Product> FindAllIVAPriceProducts(int num);
 
     }
+
+
 }
