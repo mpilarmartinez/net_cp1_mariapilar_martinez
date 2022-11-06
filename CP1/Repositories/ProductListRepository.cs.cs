@@ -6,6 +6,8 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using System.Xml.Linq;
+using Msg = System.Console;
 
 namespace CP1.Repositories
 {
@@ -15,14 +17,20 @@ namespace CP1.Repositories
         //atributo lista de productos 
         private List<Product> products;
         private object product;
-        private int i;
+        private int id;
 
         // Constructor
         public ProductListRepository()
         {
+            DateTime date1 = new DateTime(2022, 01, 01);
+            DateTime date2 = new DateTime(2022, 03, 01);
+            Manufacturer manufacturer = new Manufacturer { id = 1, name = "manufacturer1" };
+            Manufacturer manufacturer1 = new Manufacturer { id = 2, name = "manufacturer2" };
+
+
             products = new List<Product> {
-            new Product{ id = 1, name = "producto1", weight = 35.5, price = 25.5, quantity = 5, cost = 20.5, /*date = (2022,01,01)*/ },
-            new Product{ id = 2, name = "producto2", weight = 32.3,  price = 20.5, quantity = 8, cost = 15.5, /*date = (2022,02,01)*/ },
+            new Product{ id = 1, name = "producto1", weight = 35.5, price = 25.5, quantity = 5, cost = 20.5, date = date1, manufacturer = manufacturer},
+            new Product{ id = 2, name = "producto2", weight = 32.3,  price = 20.5, quantity = 8, cost = 15.5, date =date2, manufacturer = manufacturer1},
             };
         }
 
@@ -30,7 +38,7 @@ namespace CP1.Repositories
         // Encuentra por id
         public Product FindById(int id)
         {
-            
+
             foreach (Product product in products)
             {
                 if (product.id == id)
@@ -59,7 +67,6 @@ namespace CP1.Repositories
                 }
             }
             return productsByPrice;
-
         }
 
         // Encuentra productos por fecha de creación anterior a la
@@ -113,11 +120,21 @@ namespace CP1.Repositories
             int numElementosInicial = products.Count;
             int numElementosFinal;
 
-            product.id = FindMaxId();
-
             products.Add(product);
 
             numElementosFinal = products.Count;
+
+            /*
+             * Compruebo que se realiza la función
+             * Para ello recorro la lista después de 
+             * realizar la operación solicitada y así 
+             * compruebo que se ha ejecutado correctamente
+             */
+            foreach (Product p in products)
+            {
+                Msg.WriteLine(p.name);
+                Msg.WriteLine("\n");
+            }
 
             if (numElementosInicial < numElementosFinal)
             {
@@ -157,7 +174,19 @@ namespace CP1.Repositories
                     products[i].price = product.price;
                     products[i].quantity = product.quantity;
                     products[i].cost = product.cost;
-                    products[i].date = product.date;
+
+                    /*
+                    * Compruebo que se realiza la función
+                    * Para ello recorro la lista después de 
+                    * realizar la operación solicitada y así 
+                    * compruebo que se ha ejecutado correctamente
+                    */
+
+                    foreach (Product p in products)
+                    {
+                        Msg.WriteLine(p.name);
+                        Msg.WriteLine("\n");
+                    }
 
                     return true; // una vez modificado salimos del método
                 }
@@ -179,6 +208,17 @@ namespace CP1.Repositories
                 if (products[i].id == id)
                 {
                     products.RemoveAt(i);
+                    /*
+                    * Compruebo que se realiza la función
+                    * Para ello recorro la lista después de 
+                    * realizar la operación solicitada y así 
+                    * compruebo que se ha ejecutado correctamente
+                    */
+                    foreach (Product p in products)
+                    {
+                        Msg.WriteLine(p.name);
+                        Msg.WriteLine("\n");
+                    }
                     return true;
                 }
             }
@@ -192,12 +232,24 @@ namespace CP1.Repositories
                 return false;
 
             products.Clear();
+
+            /*
+                * Compruebo que se realiza la función
+                * Para ello recorro la lista después de 
+                * realizar la operación solicitada y así 
+                * compruebo que se ha ejecutado correctamente
+                */
+            foreach (Product p in products)
+            {
+                Msg.WriteLine(p.name);
+                Msg.WriteLine("\n");
+            }
+
             return true;
         }
 
         public double SumAllPrices()
         {
-
             double suma_precios = 0;
 
             foreach (Product product in products)
@@ -217,7 +269,9 @@ namespace CP1.Repositories
             foreach (Product product in products)
             {
 
-                total = total + product.price * product.quatity;
+                total = total + (product.price * Convert.ToDouble(product.quantity));
+                
+
             }
 
             return total;
@@ -227,14 +281,18 @@ namespace CP1.Repositories
         {
 
             double total1 = 0;
+            double result = 0;
 
             foreach (Product product in products)
             {
 
-                total1 = total1 + product.cost * product.quatity;
+                total1 = total1 + (product.cost * product.quantity); 
             }
 
-            return CalculateGrossProfit() - total1;
+            result = CalculateGrossProfit() - total1;
+           
+
+            return result;
         }
 
         // Obtener los productos pero con el IVA añadido al precio.
@@ -251,20 +309,29 @@ namespace CP1.Repositories
 
             if (num < 1 || num > 100) num = 21;
 
-            double porcentaje = num / 100;
+            double porcentaje = Convert.ToDouble(num) / 100;
 
-            foreach (Product product in products)
+            productsIVAPrice = Clone();
+
+            foreach (Product product in productsIVAPrice)
             {
-
-                product.price = (product.price) * (1 + porcentaje);
-
-                // se modifica la lista original? si es así se poría intentar clonar 
-
-                productsIVAPrice.Add(product);
-
+                
+                product.price = (product.price * (1 + porcentaje));
+                
             }
             return productsIVAPrice;
         }
+
+        private List<Product> Clone()
+        {
+            List<Product> clone = new List<Product>();
+            foreach (Product product in products)
+            {
+                clone.Add((Product)product.Clone());
+            }
+            return clone;
+        }
+
 
         public void PrintAll()
         {
@@ -272,5 +339,21 @@ namespace CP1.Repositories
                 Console.WriteLine(product);
         }
 
+        // Count
+        public int Count()
+        {
+            int contador = 0;
+
+            foreach (Product product in products)
+            {
+                contador++;
+            }
+            return contador;
+        }
+
+        List<Product> IProductRepository.Clone()
+        {
+            throw new NotImplementedException();
+        }
     }
 }

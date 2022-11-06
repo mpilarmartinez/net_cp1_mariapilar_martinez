@@ -25,8 +25,6 @@ namespace CP1.Models
             return $"id: {id}, name:{name}";
         }
 
-
-
     }
 
 }

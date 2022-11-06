@@ -67,7 +67,12 @@ namespace CP1.Repositories
         // Cuidado: el precio se modifica para los productos que devolvemos, pero no en la lista original.
         List<Product> FindAllIVAPriceProducts(int num);
 
-    }
+        // clona una lista
+        List<Product> Clone();
 
+        // Count
+        public int Count();
+
+    }  
 
 }

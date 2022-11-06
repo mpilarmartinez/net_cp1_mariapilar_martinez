@@ -7,7 +7,8 @@ using System.Threading.Tasks;
 
 namespace CP1.Repositories
 {
-    public class ManufacturerListRepository 
+    public class ManufacturerListRepository : IManufacturerRepository
+    
     {
         //atributo lista de productos 
         private List<Manufacturer> manufacturers;
@@ -20,6 +21,11 @@ namespace CP1.Repositories
             new Manufacturer{ id = 1, name = "manufacturer1"},
             new Manufacturer{ id = 2, name = "manufacturer2"},
             };
+        }
+
+        public void AddManufacturer(Manufacturer manufacturer)
+        {
+            manufacturers.Add(manufacturer);
         }
 
 
@@ -43,16 +49,16 @@ namespace CP1.Repositories
 
         public int FindMaxId()
         {
-            int idmax = 0;
+            int idmax = 1;
 
             foreach (Manufacturer manufacturer in manufacturers)
             {
-                if (manufacturer.id > idmax)
+                if (manufacturer.id >= idmax)
                 {
                     idmax = manufacturer.id;
                 }
             }
-            return idmax++;
+            return idmax+1;
         }
 
         public bool Save(Manufacturer manufacturer)
@@ -80,6 +86,18 @@ namespace CP1.Repositories
             foreach (Manufacturer manufacturer in manufacturers)
             {
                 if (manufacturer.id == id)
+                    return true;
+            }
+
+            return false;
+        }
+
+        public bool ExistsByName(string name)
+        {
+
+            foreach (Manufacturer manufacturer in manufacturers)
+            {
+                if (manufacturer.name == name)
                     return true;
             }
 
@@ -129,7 +147,10 @@ namespace CP1.Repositories
             return false;
         }
 
-
+        public void Save()
+        {
+            throw new NotImplementedException();
+        }
     }
 
 }

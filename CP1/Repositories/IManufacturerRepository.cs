@@ -21,17 +21,20 @@ namespace CP1.Repositories
         //usamos ese id + 1 como nuevo id para el nuevo fabricante.
         int FindMaxId();
 
-        bool Save(Product manufacturer);
+        bool Save(Manufacturer manufacturer);
 
         // comprobar si existe por id
         bool ExistsById(int id);
+
+        // comprobar si existe por name
+        bool ExistsByName(string name);
 
         //Actualizar fabricante
         bool Update(Manufacturer manufacturer);
 
         //Borrar fabricante por id
         bool DeleteById(int id);
-
-
+        void Save();
+        void AddManufacturer(Manufacturer nuevoManufacturer);
     }
 }
